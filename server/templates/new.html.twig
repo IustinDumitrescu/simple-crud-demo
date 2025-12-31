@@ -1,0 +1,81 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} {{ article is defined and article ? ('Edit Article - ' ~ article.title) : 'New Article'}} {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('new') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}  
+    {{ encore_entry_script_tags('new') }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}  
+    <div class="mb-3">
+        <a href="{{ path('articles_index') }}" class="text-decoration-none" title="Articles">
+            ← Back to Articles
+        </a>
+    </div>
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class="mb-4">
+        <h1 class="h3">{{article is defined and article ? 'Edit' : 'Create' }} Article </h1>
+    </div>
+
+   {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+        <div class="mb-3">
+            {{ form_label(form.title) }}
+            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.title) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.content) }}
+            {{ form_widget(form.content, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.content) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.category) }}
+            {{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+            {{ form_errors(form.category) }}
+        </div>
+
+        {{ form_widget(form.addEdit) }}
+    {{ form_end(form) }}
+
+    <!-- Modal -->
+    <div class="modal fade" id="newCategoryModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">New Category</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+            <div id="category_flash" class="alert alert-danger d-none"></div>
+            <input type="text" id="new_category_name" class="form-control" placeholder="Category name">
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" id="save_new_category" class="btn btn-primary">Add</button>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        const newCategoryEndPoint = `{{ path('create_new_article_category')|raw }}`
+    </script>
+{% endblock %}    

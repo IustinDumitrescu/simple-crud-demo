@@ -1,0 +1,57 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} Home {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}  
+    {{ encore_entry_script_tags('index') }}
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}   
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold">
+                Create your own articles
+            </h1>
+            <p class="lead text-muted mt-3">
+                A simple CRUD demo built with Symfony, PostgreSQL, Twig and Docker.
+            </p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Browse articles</h5>
+                        <p class="card-text text-muted">
+                            View the list of all created articles.
+                        </p>
+                        <a href="{{ path('articles_index') }}" class="btn btn-outline-primary" title="Articles">
+                            View articles
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Create an article</h5>
+                        <p class="card-text text-muted">
+                            Add a new article with category and content.
+                        </p>
+                        <a href="{{ path('articles_new') }}" class="btn btn-primary" title="New Article">
+                            New article
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}

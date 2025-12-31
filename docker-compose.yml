@@ -1,0 +1,45 @@
+services:
+  frontend:
+    build:
+      context: ./frontend 
+    container_name: frontend
+    volumes:
+       - ./frontend:/app
+       - ./frontend_build:/app/public/build
+
+  server: 
+    build:
+      context: ./server 
+    container_name: server
+    depends_on:
+      - frontend
+      - postgres
+    volumes:
+      - ./server:/app/server
+      - ./frontend_build:/app/server/public/build
+    expose:
+      - "9000"
+    environment:
+      DATABASE_URL: "postgresql://myuser:mypassword@postgres:5432/mydb?serverVersion=18.1&charset=utf8"
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    depends_on:
+      - server
+    ports:
+      - "8080:80"
+    volumes:
+      - ./server:/app/server
+      - ./nginx:/etc/nginx/conf.d
+      - ./frontend_build:/app/server/public/build 
+
+  postgres:
+    image: postgres:18.1
+    container_name: postgres
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"

@@ -1,0 +1,20 @@
+{
+    "dependencies": {
+        "@babel/core": "^7.28.5",
+        "@babel/preset-env": "^7.28.5",
+        "@symfony/webpack-encore": "^5.3.1",
+        "babel-loader": "^10.0.0",
+        "bootstrap": "^5.3.8",
+        "css-loader": "^7.1.2",
+        "sass": "^1.97.1",
+        "sass-loader": "^16.0.6",
+        "style-loader": "^4.0.0",
+        "webpack": "^5.104.1",
+        "webpack-cli": "^6.0.1"
+    },
+    "scripts": {
+        "dev": "encore dev",
+        "dev-watch": "encore dev --watch",
+        "build": "encore production"
+    }
+}
