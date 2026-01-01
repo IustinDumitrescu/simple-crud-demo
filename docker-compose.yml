@@ -12,6 +12,8 @@ services:
     build:
       context: ./server 
     container_name: server
+    volumes:
+      - ./server:/app  
     depends_on:
       - frontend
       - postgres
@@ -19,7 +21,7 @@ services:
       - "9000"
     environment:
       DATABASE_URL: "postgresql://myuser:mypassword@postgres:5432/mydb?serverVersion=18.1&charset=utf8"
-    command: sh -c "composer install && echo 'Composer install done' && php-fpm" 
+    command: sh -c "composer install && chmod +x ./database_migration.sh && ./database_migration.sh && php-fpm" 
 
   nginx:
     image: nginx
