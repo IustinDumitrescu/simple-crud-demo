@@ -4,8 +4,9 @@ services:
       context: ./frontend 
     container_name: frontend
     volumes:
+       - ./server/public/build:/app/public/build
        - ./frontend:/app
-       - ./frontend_build:/app/public/build
+    command: sh -c "npm install && echo 'NPM install done' && npm run dev-watch"
 
   server: 
     build:
@@ -14,13 +15,11 @@ services:
     depends_on:
       - frontend
       - postgres
-    volumes:
-      - ./server:/app/server
-      - ./frontend_build:/app/server/public/build
     expose:
       - "9000"
     environment:
       DATABASE_URL: "postgresql://myuser:mypassword@postgres:5432/mydb?serverVersion=18.1&charset=utf8"
+    command: sh -c "composer install && echo 'Composer install done' && php-fpm" 
 
   nginx:
     image: nginx
@@ -32,7 +31,6 @@ services:
     volumes:
       - ./server:/app/server
       - ./nginx:/etc/nginx/conf.d
-      - ./frontend_build:/app/server/public/build 
 
   postgres:
     image: postgres:18.1
@@ -43,3 +41,4 @@ services:
       POSTGRES_PASSWORD: mypassword
     ports:
       - "5432:5432"
+    

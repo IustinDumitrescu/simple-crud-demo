@@ -5,5 +5,3 @@ COPY . .
 RUN chmod +x *.sh 
 RUN ./composer_install.sh
 EXPOSE 9000
-ENTRYPOINT [ "./database_migration.sh" ] 
-CMD ["php-fpm"]

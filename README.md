@@ -39,5 +39,5 @@ A small Symfony + PostgreSQL + Dockerized CRUD demo to showcase article manageme
 ```bash
 git clone https://github.com/IustinDumitrescu/simple-crud-demo.git
 cd simple-crud-demo
-cp .env.example .env
+cp ./server/.env.example ./server/.env
 docker-compose up

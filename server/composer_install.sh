@@ -13,5 +13,3 @@ php -r "unlink('composer-setup.php');"
 # Verify
 composer --version
 echo "Composer installed successfully!"
-
-exec composer install
