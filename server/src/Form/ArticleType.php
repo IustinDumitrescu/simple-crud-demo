@@ -47,7 +47,10 @@ class ArticleType extends AbstractType
             'method' => 'POST',
             'csrf_protection' => true,
             'categories' => [],
-            'article' => null
+            'article' => null,
+            'attr' => [
+                'id' => 'article_form'
+            ]
         ]);
     }
 }       

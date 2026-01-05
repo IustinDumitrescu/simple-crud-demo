@@ -22,9 +22,6 @@ const deleteThis = (targetId, checked) => {
          body: JSON.stringify({ deleted: checked })
       })
         .then(res => res.json())
-        .then(data => {
-            console.log(data);
-        })
         .catch(() => {});
 };
 

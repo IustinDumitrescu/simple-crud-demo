@@ -12,15 +12,16 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 use function Symfony\Component\String\u;
 
-class HomeController extends AbstractController 
+class ArticleController extends AbstractController 
 {
 
-    #[Route(path: "/", name: "home")]
+    #[Route(path: "/", name: "home", methods:['GET'])]
     public function index()
     {
         return $this->render('index.html.twig');
@@ -68,8 +69,8 @@ class HomeController extends AbstractController
     {
         $article = $articleRepository->findOneBy(["id" => $id, "slug" => $slug]);
 
-         if (!$article) {
-            return $this->redirectToRoute('articles_index');
+        if (!$article) {
+            return new Response('', 404);
         }
 
         return $this->render('show.html.twig', ["article" => $article]);
@@ -120,7 +121,7 @@ class HomeController extends AbstractController
         $article = $em->getRepository(Article::class)->find($id);
         
         if (!$article) {
-            return $this->redirectToRoute('articles_index');
+            return new Response('', 404);
         }
 
         $categories = $em->getRepository(Category::class)->findAll();
@@ -165,7 +166,7 @@ class HomeController extends AbstractController
         $articleNotFound = new JsonResponse([
             "message" => "Article not found",
             "value" => "error"
-        ]);
+        ], 404);
 
         if ($request->isMethod('DELETE') && $request->isXmlHttpRequest()) {
             $article = $articleRepository->find($id);
@@ -278,7 +279,7 @@ class HomeController extends AbstractController
                 ->setSlug($slugger->slug($validatedData["title"])->lower()->toString())
         );
 
-        $this->addFlash('success', 'The article was created !');
+        $this->addFlash('success', 'The article was ' . ($article ? 'updated' : 'created'));
 
         if (!$article) {
             return $this->redirectToRoute('articles_new');
