@@ -19,7 +19,9 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function search(?string $query, ?int $categoryId): QueryBuilder
     {
-        $qb = $this->createQueryBuilder('a');
+        $qb = $this->createQueryBuilder('a')
+            ->leftJoin('a.category', 'c')
+            ->addSelect('PARTIAL c.{id, name}');
 
         if ($query) {
             $qb
